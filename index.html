@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Danilo Rezende — Engenheiro & Analista de Dados</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── RESET & TOKENS ─────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #080b10;
+      --bg-2:      #0d1117;
+      --bg-card:   #0f1520;
+      --border:    rgba(255,255,255,0.07);
+      --border-h:  rgba(83,200,255,0.35);
+      --text:      #e2e8f0;
+      --muted:     #64748b;
+      --accent:    #38bdf8;
+      --accent-2:  #0ea5e9;
+      --accent-glow: rgba(56,189,248,0.18);
+      --green:     #34d399;
+      --amber:     #fbbf24;
+      --radius:    12px;
+      --font-head: 'Syne', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ─── NOISE OVERLAY ──────────────────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.4;
+    }
+
+    /* ─── SCROLLBAR ──────────────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--accent-2); border-radius: 99px; }
+
+    /* ─── TYPOGRAPHY ─────────────────────────────────────────────── */
+    h1, h2, h3, h4 { font-family: var(--font-head); font-weight: 700; line-height: 1.15; }
+    a { color: inherit; text-decoration: none; }
+    p { color: var(--muted); }
+    strong { color: var(--text); font-weight: 500; }
+
+    /* ─── LAYOUT HELPERS ─────────────────────────────────────────── */
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    section { padding: 100px 0; }
+
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-head);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+    .section-label::before {
+      content: '';
+      width: 28px; height: 1px;
+      background: var(--accent);
+      display: block;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3rem);
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+
+    /* ─── ANIMATED ENTRANCE ──────────────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s cubic-bezier(.22,1,.36,1), transform 0.7s cubic-bezier(.22,1,.36,1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ─── NAVBAR ─────────────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 18px 0;
+      transition: background 0.4s, backdrop-filter 0.4s, border-color 0.4s;
+      border-bottom: 1px solid transparent;
+    }
+    nav.scrolled {
+      background: rgba(8,11,16,0.72);
+      backdrop-filter: blur(20px) saturate(160%);
+      border-bottom-color: var(--border);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      font-family: var(--font-head);
+      font-weight: 800;
+      font-size: 1.05rem;
+      letter-spacing: -0.01em;
+      color: var(--text);
+    }
+    .nav-logo span { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: var(--muted);
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    .nav-cta {
+      font-family: var(--font-head);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 9px 20px;
+      border: 1px solid var(--border-h);
+      border-radius: 999px;
+      color: var(--accent) !important;
+      transition: background 0.2s, box-shadow 0.2s !important;
+    }
+    .nav-cta:hover {
+      background: var(--accent-glow) !important;
+      box-shadow: 0 0 24px var(--accent-glow) !important;
+      color: var(--accent) !important;
+    }
+
+    /* ─── HAMBURGER ──────────────────────────────────────────────── */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 22px; height: 2px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .mobile-menu {
+      display: none;
+      position: fixed; top: 60px; left: 0; right: 0;
+      background: rgba(8,11,16,0.97);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 24px;
+      flex-direction: column;
+      gap: 20px;
+      z-index: 99;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { font-size: 1rem; color: var(--muted); }
+
+    /* ─── HERO ───────────────────────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 120px 0 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Background mesh gradient */
+    .hero-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 60% 40%, rgba(56,189,248,0.06) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 50% at 10% 80%, rgba(14,165,233,0.04) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    /* Decorative grid lines */
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+    }
+
+    .hero-content { position: relative; z-index: 1; max-width: 760px; }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--accent);
+      background: rgba(56,189,248,0.08);
+      border: 1px solid rgba(56,189,248,0.2);
+      border-radius: 999px;
+      padding: 6px 16px;
+      margin-bottom: 28px;
+      letter-spacing: 0.05em;
+    }
+    .hero-tag::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent);
+      animation: pulse 2s infinite;
+    }
+
+    #rotating-title {
+      display: inline-block;
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+    #rotating-title.fade-out {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+    #rotating-title.fade-in {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .hero-name {
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      line-height: 1.05;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+    .hero-name .accent-line {
+      display: block;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(255,255,255,0.2);
+      position: relative;
+    }
+    .hero-name .accent-line::after {
+      content: attr(data-text);
+      position: absolute; left: 0; top: 0;
+      background: linear-gradient(90deg, var(--accent), var(--green));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      clip-path: inset(0 60% 0 0);
+      animation: reveal-text 1.2s 0.8s cubic-bezier(.22,1,.36,1) forwards;
+    }
+    @keyframes reveal-text {
+      to { clip-path: inset(0 0% 0 0); }
+    }
+
+    .hero-desc {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 540px;
+      line-height: 1.8;
+      margin-bottom: 40px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-head);
+      font-size: 0.875rem;
+      font-weight: 600;
+      padding: 13px 26px;
+      border-radius: 999px;
+      transition: all 0.25s;
+      cursor: pointer;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #050810;
+      box-shadow: 0 0 32px rgba(56,189,248,0.25);
+    }
+    .btn-primary:hover {
+      background: #7dd3fc;
+      box-shadow: 0 0 48px rgba(56,189,248,0.4);
+      transform: translateY(-2px);
+    }
+    .btn-ghost {
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+    .btn-ghost:hover {
+      border-color: var(--border-h);
+      background: rgba(56,189,248,0.05);
+      transform: translateY(-2px);
+    }
+
+    /* Scroll indicator */
+    .scroll-hint {
+      position: absolute;
+      bottom: 40px; left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      opacity: 0;
+      animation: fadeUp 1s 1.5s forwards;
+    }
+    @keyframes fadeUp {
+      to { opacity: 0.5; }
+    }
+    .scroll-line {
+      width: 1px; height: 40px;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+      animation: scroll-drop 1.5s 1.5s ease-in-out infinite;
+    }
+    @keyframes scroll-drop {
+      0% { transform: scaleY(0); transform-origin: top; }
+      50% { transform: scaleY(1); transform-origin: top; }
+      51% { transform: scaleY(1); transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; }
+    }
+
+    /* ─── ABOUT ──────────────────────────────────────────────────── */
+    #sobre { background: var(--bg); }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .about-text p {
+      margin-bottom: 16px;
+      font-size: 1rem;
+      line-height: 1.85;
+    }
+
+    .skills-block { margin-top: 48px; }
+    .skills-title {
+      font-family: var(--font-head);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+    .skills-group { margin-bottom: 28px; }
+    .skills-group-name {
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 10px;
+      opacity: 0.6;
+    }
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      font-weight: 400;
+      padding: 5px 12px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      color: var(--text);
+      background: rgba(255,255,255,0.03);
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .tag:hover {
+      border-color: var(--border-h);
+      background: var(--accent-glow);
+    }
+    .tag.accent { border-color: rgba(56,189,248,0.3); color: var(--accent); background: rgba(56,189,248,0.06); }
+    .tag.green { border-color: rgba(52,211,153,0.3); color: var(--green); background: rgba(52,211,153,0.06); }
+    .tag.amber { border-color: rgba(251,191,36,0.3); color: var(--amber); background: rgba(251,191,36,0.06); }
+
+    /* Stat cards */
+    .stats-side { display: flex; flex-direction: column; gap: 20px; }
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      position: relative;
+      overflow: hidden;
+    }
+    .stat-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+    }
+    .stat-num {
+      font-family: var(--font-head);
+      font-size: 2.8rem;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+      letter-spacing: 0em;
+      margin-bottom: 6px;
+    }
+    .stat-label { font-size: 0.85rem; color: var(--muted); }
+
+    .about-visual {
+      position: relative;
+      height: 280px;
+      border-radius: var(--radius);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    /* Code animation visual */
+    .code-lines {
+      padding: 24px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.75rem;
+      line-height: 1.9;
+    }
+    .code-line { opacity: 0; animation: code-appear 0.5s forwards; }
+    .code-line:nth-child(1) { animation-delay: 0.3s; }
+    .code-line:nth-child(2) { animation-delay: 0.6s; }
+    .code-line:nth-child(3) { animation-delay: 0.9s; }
+    .code-line:nth-child(4) { animation-delay: 1.2s; }
+    .code-line:nth-child(5) { animation-delay: 1.5s; }
+    .code-line:nth-child(6) { animation-delay: 1.8s; }
+    .code-line:nth-child(7) { animation-delay: 2.1s; }
+    .code-line:nth-child(8) { animation-delay: 2.4s; }
+    @keyframes code-appear {
+      to { opacity: 1; }
+    }
+    .code-keyword { color: #c792ea; }
+    .code-fn { color: var(--accent); }
+    .code-str { color: var(--green); }
+    .code-comment { color: #546e7a; }
+    .code-num { color: var(--amber); }
+
+    /* ─── PROJECTS ───────────────────────────────────────────────── */
+    #projetos { background: var(--bg-2); }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+      margin-top: 56px;
+    }
+
+    .project-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+      display: flex;
+      flex-direction: column;
+    }
+    .project-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--border-h);
+      box-shadow: 0 12px 48px rgba(56,189,248,0.1);
+    }
+
+    .card-header {
+      padding: 28px 28px 20px;
+      position: relative;
+    }
+
+    .card-accent-bar {
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 3px;
+    }
+
+    .card-icon {
+      width: 44px; height: 44px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 20px;
+      font-size: 1.2rem;
+    }
+
+    .card-title {
+      font-family: var(--font-head);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .card-desc {
+      font-size: 0.875rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .card-body {
+      padding: 0 28px 20px;
+      flex: 1;
+    }
+
+    .card-modules {
+      margin-top: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .module-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    .module-dot {
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: var(--accent);
+      margin-top: 7px;
+      flex-shrink: 0;
+    }
+
+    .card-footer {
+      padding: 20px 28px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .card-stack { display: flex; flex-wrap: wrap; gap: 6px; }
+    .stack-badge {
+      font-size: 0.7rem;
+      padding: 3px 10px;
+      border-radius: 4px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+
+    .card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--accent);
+      font-family: var(--font-head);
+      transition: gap 0.2s;
+    }
+    .card-link:hover { gap: 10px; }
+
+    /* ─── EXPERIENCE ─────────────────────────────────────────────── */
+    #experiencia { background: var(--bg); }
+
+    .timeline {
+      position: relative;
+      margin-top: 56px;
+      padding-left: 32px;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute; left: 0; top: 6px; bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--accent), transparent 90%);
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 48px;
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -36px; top: 6px;
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 12px var(--accent);
+      border: 2px solid var(--bg);
+    }
+
+    .timeline-meta {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    .timeline-period {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-family: var(--font-head);
+      background: rgba(56,189,248,0.08);
+      padding: 3px 10px;
+      border-radius: 4px;
+      border: 1px solid rgba(56,189,248,0.2);
+    }
+    .timeline-company {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .timeline-role {
+      font-family: var(--font-head);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+
+    .timeline-desc {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.8;
+      max-width: 680px;
+    }
+
+    .timeline-skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 14px;
+    }
+
+    /* ─── CONTACT ────────────────────────────────────────────────── */
+    #contato {
+      background: var(--bg-2);
+      text-align: center;
+    }
+
+    .contact-inner {
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    .contact-headline {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+    .contact-headline span {
+      background: linear-gradient(90deg, var(--accent), var(--green));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .contact-sub {
+      font-size: 1rem;
+      color: var(--muted);
+      margin-bottom: 44px;
+    }
+
+    .contact-links {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 60px;
+    }
+
+    .contact-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 28px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-family: var(--font-head);
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text);
+      transition: all 0.25s;
+      background: var(--bg-card);
+    }
+    .contact-link:hover {
+      border-color: var(--border-h);
+      background: rgba(56,189,248,0.06);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 32px rgba(56,189,248,0.1);
+    }
+    .contact-link svg { flex-shrink: 0; }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 0;
+      text-align: center;
+    }
+    .footer-text {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    .footer-text span { color: var(--accent); }
+
+    /* ─── RESPONSIVE ─────────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      section { padding: 72px 0; }
+      .about-grid { grid-template-columns: 1fr; gap: 48px; }
+      .stats-side { flex-direction: row; flex-wrap: wrap; }
+      .stat-card { flex: 1 1 140px; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .hero-name { font-size: clamp(2.4rem, 10vw, 3.5rem); }
+      .contact-links { flex-direction: column; }
+      .contact-link { width: 100%; justify-content: center; }
+    }
+
+    @media (max-width: 480px) {
+      .btn { padding: 11px 20px; font-size: 0.8rem; }
+      .hero-actions { flex-direction: column; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ─── NAV ──────────────────────────────────────────────────── -->
+  <nav id="navbar">
+    <div class="container nav-inner">
+      <a href="#hero" class="nav-logo">DR<span>.</span></a>
+      <ul class="nav-links">
+        <li><a href="#sobre">Sobre</a></li>
+        <li><a href="#projetos">Projetos</a></li>
+        <li><a href="#experiencia">Experiência</a></li>
+        <li><a href="#contato" class="nav-cta">Contato</a></li>
+      </ul>
+      <div class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#sobre" class="mobile-link">Sobre</a>
+    <a href="#projetos" class="mobile-link">Projetos</a>
+    <a href="#experiencia" class="mobile-link">Experiência</a>
+    <a href="#contato" class="mobile-link">Contato</a>
+  </div>
+
+  <main>
+
+    <!-- ─── HERO ────────────────────────────────────────────────── -->
+    <section id="hero">
+      <div class="hero-bg"></div>
+      <div class="hero-grid"></div>
+      <div class="container">
+        <div class="hero-content">
+          <div class="hero-tag reveal">
+        <span id="rotating-title">Engenheiro de Dados</span>
+      </div>
+          <h1 class="hero-name reveal reveal-delay-1">
+            Danilo
+            <span class="accent-line" data-text="Rezende.">Rezende.</span>
+          </h1>
+          <p class="hero-desc reveal reveal-delay-2">
+            Transformo dados brutos em pipelines robustos, dashboards analíticos e soluções com IA — do banco de dados até a tomada de decisão.
+          </p>
+          <div class="hero-actions reveal reveal-delay-3">
+            <a href="#projetos" class="btn btn-primary">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M2 3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3Zm5.5 1.5v4.19L5.28 6.47a.75.75 0 0 0-1.06 1.06l3.25 3.25a.75.75 0 0 0 1.06 0l3.25-3.25a.75.75 0 1 0-1.06-1.06L8.5 8.69V4.5a.75.75 0 0 0-1.5 0Z"/></svg>
+              Ver Projetos
+            </a>
+            <a href="https://www.linkedin.com/in/danilorezend/" target="_blank" rel="noopener" class="btn btn-ghost">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+              LinkedIn
+            </a>
+            <a href="https://github.com/danilorezende25" target="_blank" rel="noopener" class="btn btn-ghost">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+              GitHub
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="scroll-hint">
+        <div class="scroll-line"></div>
+        <span>scroll</span>
+      </div>
+    </section>
+
+    <!-- ─── SOBRE ─────────────────────────────────────────────────── -->
+    <section id="sobre">
+      <div class="container">
+        <div class="about-grid">
+          <div class="about-text reveal">
+            <div class="section-label">Sobre mim</div>
+            <h2 class="section-title">Dados como linguagem,<br>código como ferramenta.</h2>
+            <p>
+              Sou apaixonado por transformar dados dispersos em ativos estratégicos. Meu foco está na engenharia de dados de ponta a ponta — desde a modelagem de pipelines até a entrega de insights acionáveis através de dashboards e interfaces inteligentes.
+            </p>
+            <p>
+              Trabalho com a <strong>arquitetura Medalhão (Bronze, Silver, Gold)</strong>, garantindo que os dados trafeguem com qualidade e governança ao longo de toda a cadeia. Tenho interesse crescente em soluções que combinam dados estruturados com <strong>inteligência artificial</strong> para automatizar análises e democratizar o acesso à informação.
+            </p>
+            <p>
+              Atualmente aprofundo meu conhecimento no ecossistema moderno de dados: <strong>dbt, Streamlit, Supabase e APIs de IA generativa</strong> — construindo projetos que resolvem problemas reais de negócio.
+            </p>
+
+            <div class="skills-block">
+              <div class="skills-title">Stack Técnica</div>
+              <div class="skills-group">
+                <div class="skills-group-name">Engenharia de Dados</div>
+                <div class="tags">
+                  <span class="tag accent">dbt</span>
+                  <span class="tag accent">SQL</span>
+                  <span class="tag accent">PostgreSQL</span>
+                  <span class="tag accent">Supabase</span>
+                  <span class="tag accent">ETL/ELT</span>
+                  <span class="tag accent">Arquitetura Medalhão</span>
+                </div>
+              </div>
+              <div class="skills-group">
+                <div class="skills-group-name">Desenvolvimento & Visualização</div>
+                <div class="tags">
+                  <span class="tag green">Python</span>
+                  <span class="tag green">Streamlit</span>
+                  <span class="tag green">Plotly</span>
+                  <span class="tag green">Pandas</span>
+                </div>
+              </div>
+              <div class="skills-group">
+                <div class="skills-group-name">IA & Automação</div>
+                <div class="tags">
+                  <span class="tag amber">Google Gemini API</span>
+                  <span class="tag amber">Telegram Bot API</span>
+                  <span class="tag amber">LLM Integration</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="stats-side reveal reveal-delay-2">
+            <div class="about-visual">
+              <div class="code-lines">
+                <div class="code-line"><span class="code-comment"># pipeline de dados — camada gold</span></div>
+                <div class="code-line"><span class="code-keyword">with</span> <span class="code-fn">orders_gold</span> <span class="code-keyword">as</span> (</div>
+                <div class="code-line">&nbsp;&nbsp;<span class="code-keyword">select</span></div>
+                <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;customer_id,</div>
+                <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-fn">sum</span>(revenue) <span class="code-keyword">as</span> total_revenue,</div>
+                <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-fn">count</span>(*) <span class="code-keyword">as</span> orders_count</div>
+                <div class="code-line">&nbsp;&nbsp;<span class="code-keyword">from</span> silver.orders</div>
+                <div class="code-line">&nbsp;&nbsp;<span class="code-keyword">group by</span> <span class="code-num">1</span></div>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-num">3</div>
+              <div class="stat-label">Módulos integrados no projeto principal (Pipeline · Dashboard · IA)</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-num">100%</div>
+              <div class="stat-label">Python — linguagem principal dos projetos públicos</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-num">E2E</div>
+              <div class="stat-label">Foco em soluções de dados end-to-end com impacto real de negócio</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── PROJETOS ──────────────────────────────────────────────── -->
+    <section id="projetos">
+      <div class="container">
+        <div class="reveal">
+          <div class="section-label">Projetos</div>
+          <h2 class="section-title">Soluções construídas,<br>problemas resolvidos.</h2>
+          <p style="max-width:520px; margin-top:8px;">
+            Um portfólio de projetos de dados de ponta a ponta — da ingestão ao insight, do banco de dados ao chatbot.
+          </p>
+        </div>
+
+        <div class="projects-grid">
+
+          <!-- Card 1 — Pipeline DBT -->
+          <article class="project-card reveal reveal-delay-1">
+            <div class="card-header">
+              <div class="card-accent-bar" style="background: linear-gradient(90deg, #38bdf8, #0ea5e9);"></div>
+              <div class="card-icon" style="background: rgba(56,189,248,0.1); color: var(--accent);">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 17H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2z"/><path d="M12 17v4M8 21h8"/></svg>
+              </div>
+              <div class="card-title">Pipeline de Dados com dbt</div>
+              <p class="card-desc">Modelagem e transformação de dados brutos de e-commerce usando a arquitetura Medalhão. Dados organizados em camadas Bronze, Silver e Gold para análise confiável.</p>
+            </div>
+            <div class="card-body">
+              <div class="card-modules">
+                <div class="module-item"><div class="module-dot"></div><span>Camada Bronze: ingestão dos dados brutos de pedidos e clientes</span></div>
+                <div class="module-item"><div class="module-dot"></div><span>Camada Silver: limpeza, padronização e joins entre entidades</span></div>
+                <div class="module-item"><div class="module-dot"></div><span>Camada Gold: agregações e métricas prontas para consumo analítico</span></div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <div class="card-stack">
+                <span class="stack-badge" style="background:rgba(56,189,248,0.1);color:var(--accent);border:1px solid rgba(56,189,248,0.2)">dbt</span>
+                <span class="stack-badge" style="background:rgba(56,189,248,0.07);color:#7dd3fc;border:1px solid rgba(56,189,248,0.15)">SQL</span>
+                <span class="stack-badge" style="background:rgba(52,211,153,0.07);color:var(--green);border:1px solid rgba(52,211,153,0.15)">PostgreSQL</span>
+                <span class="stack-badge" style="background:rgba(52,211,153,0.07);color:var(--green);border:1px solid rgba(52,211,153,0.15)">Supabase</span>
+              </div>
+              <a href="https://github.com/danilorezende25/ecommerce-intelligence-suite/tree/master/01-pipeline-dbt" target="_blank" class="card-link">
+                Ver código
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2Zm6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.75.75 0 0 1-1.5 0V2.561l-3.97 3.97a.749.749 0 0 1-1.06-1.06l3.97-3.97h-1.586a.75.75 0 0 1 0-1.5Z"/></svg>
+              </a>
+            </div>
+          </article>
+
+          <!-- Card 2 — Dashboard Streamlit -->
+          <article class="project-card reveal reveal-delay-2">
+            <div class="card-header">
+              <div class="card-accent-bar" style="background: linear-gradient(90deg, #34d399, #10b981);"></div>
+              <div class="card-icon" style="background: rgba(52,211,153,0.1); color: var(--green);">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/><path d="m12 15 2 2 4-4"/></svg>
+              </div>
+              <div class="card-title">Dashboard Analítico — Streamlit</div>
+              <p class="card-desc">Interface interativa para acompanhamento de KPIs comerciais, performance de clientes e análise de pricing competitivo. Alimentado pela camada Gold do pipeline dbt.</p>
+            </div>
+            <div class="card-body">
+              <div class="card-modules">
+                <div class="module-item"><div class="module-dot" style="background: var(--green)"></div><span>KPIs de vendas: receita, ticket médio e tendências temporais</span></div>
+                <div class="module-item"><div class="module-dot" style="background: var(--green)"></div><span>Segmentação de clientes e análise de comportamento de compra</span></div>
+                <div class="module-item"><div class="module-dot" style="background: var(--green)"></div><span>Monitor de pricing com comparação de competitividade</span></div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <div class="card-stack">
+                <span class="stack-badge" style="background:rgba(52,211,153,0.1);color:var(--green);border:1px solid rgba(52,211,153,0.2)">Python</span>
+                <span class="stack-badge" style="background:rgba(52,211,153,0.07);color:#6ee7b7;border:1px solid rgba(52,211,153,0.15)">Streamlit</span>
+                <span class="stack-badge" style="background:rgba(52,211,153,0.07);color:#6ee7b7;border:1px solid rgba(52,211,153,0.15)">Plotly</span>
+                <span class="stack-badge" style="background:rgba(52,211,153,0.07);color:#6ee7b7;border:1px solid rgba(52,211,153,0.15)">Pandas</span>
+              </div>
+              <a href="https://github.com/danilorezende25/ecommerce-intelligence-suite/tree/master/02-dashboard-streamlit" target="_blank" class="card-link" style="color: var(--green)">
+                Ver código
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2Zm6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.75.75 0 0 1-1.5 0V2.561l-3.97 3.97a.749.749 0 0 1-1.06-1.06l3.97-3.97h-1.586a.75.75 0 0 1 0-1.5Z"/></svg>
+              </a>
+            </div>
+          </article>
+
+          <!-- Card 3 — Telegram Bot Gemini -->
+          <article class="project-card reveal reveal-delay-3">
+            <div class="card-header">
+              <div class="card-accent-bar" style="background: linear-gradient(90deg, #fbbf24, #f59e0b);"></div>
+              <div class="card-icon" style="background: rgba(251,191,36,0.1); color: var(--amber);">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 10h.01M12 10h.01M16 10h.01"/></svg>
+              </div>
+              <div class="card-title">Agente IA no Telegram — Gemini</div>
+              <p class="card-desc">Bot inteligente que responde perguntas em linguagem natural sobre o banco de dados do e-commerce e envia relatórios executivos automáticos via Telegram.</p>
+            </div>
+            <div class="card-body">
+              <div class="card-modules">
+                <div class="module-item"><div class="module-dot" style="background: var(--amber)"></div><span>Interface de chat natural para consulta ao banco de dados</span></div>
+                <div class="module-item"><div class="module-dot" style="background: var(--amber)"></div><span>Geração automática de relatórios executivos programados</span></div>
+                <div class="module-item"><div class="module-dot" style="background: var(--amber)"></div><span>Integração com Google Gemini para interpretação das perguntas</span></div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <div class="card-stack">
+                <span class="stack-badge" style="background:rgba(251,191,36,0.1);color:var(--amber);border:1px solid rgba(251,191,36,0.2)">Python</span>
+                <span class="stack-badge" style="background:rgba(251,191,36,0.07);color:#fde68a;border:1px solid rgba(251,191,36,0.15)">Gemini API</span>
+                <span class="stack-badge" style="background:rgba(251,191,36,0.07);color:#fde68a;border:1px solid rgba(251,191,36,0.15)">Telegram Bot</span>
+              </div>
+              <a href="https://github.com/danilorezende25/ecommerce-intelligence-suite/tree/master/03-telegram-bot-gemini" target="_blank" class="card-link" style="color: var(--amber)">
+                Ver código
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2Zm6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.75.75 0 0 1-1.5 0V2.561l-3.97 3.97a.749.749 0 0 1-1.06-1.06l3.97-3.97h-1.586a.75.75 0 0 1 0-1.5Z"/></svg>
+              </a>
+            </div>
+          </article>
+
+        </div>
+
+        <div style="text-align:center; margin-top: 48px;" class="reveal">
+          <a href="https://github.com/danilorezende25/ecommerce-intelligence-suite" target="_blank" class="btn btn-ghost">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+            Ver repositório completo no GitHub
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── EXPERIÊNCIA ────────────────────────────────────────────── -->
+    <section id="experiencia">
+      <div class="container">
+        <div class="reveal">
+          <div class="section-label">Trajetória</div>
+          <h2 class="section-title">Experiência &amp;<br>Formação</h2>
+        </div>
+
+        <div class="timeline">
+
+          <div class="timeline-item reveal reveal-delay-1">
+            <div class="timeline-meta">
+              <span class="timeline-period">2024 — Presente</span>
+              <span class="timeline-company">Jornada de Dados · Workshop</span>
+            </div>
+            <div class="timeline-role">Engenharia de Dados de Ponta a Ponta</div>
+            <p class="timeline-desc">
+              Desenvolvimento intensivo do projeto <strong>E-commerce Intelligence Suite</strong>, abrangendo modelagem com dbt na arquitetura Medalhão, criação de dashboards analíticos com Streamlit e implementação de agente inteligente com Google Gemini API. Projeto orientado por Luciano Galvão.
+            </p>
+            <div class="timeline-skills">
+              <span class="tag accent">dbt</span>
+              <span class="tag accent">Supabase</span>
+              <span class="tag green">Streamlit</span>
+              <span class="tag amber">Google Gemini</span>
+            </div>
+          </div>
+
+          <div class="timeline-item reveal reveal-delay-2">
+            <div class="timeline-meta">
+              <span class="timeline-period">Em andamento</span>
+              <span class="timeline-company">Formação independente</span>
+            </div>
+            <div class="timeline-role">Especialização em Stack Moderna de Dados</div>
+            <p class="timeline-desc">
+              Aprofundamento no ecossistema de dados moderno com foco em transformação de dados, qualidade e entrega de valor analítico. Projetos práticos conectando <strong>cloud databases, transformações SQL com dbt</strong> e interfaces de análise em Python.
+            </p>
+            <div class="timeline-skills">
+              <span class="tag accent">PostgreSQL</span>
+              <span class="tag accent">SQL avançado</span>
+              <span class="tag green">Python</span>
+              <span class="tag green">Pandas</span>
+              <span class="tag green">Plotly</span>
+            </div>
+          </div>
+
+          <div class="timeline-item reveal reveal-delay-3">
+            <div class="timeline-meta">
+              <span class="timeline-period">Background</span>
+              <span class="timeline-company">Projetos de Dados</span>
+            </div>
+            <div class="timeline-role">Foco em Inteligência de Dados e IA Aplicada</div>
+            <p class="timeline-desc">
+              Construção de soluções end-to-end que integram <strong>pipelines de dados, visualizações interativas e agentes de IA</strong>. Interesse particular em democratizar o acesso à análise de dados através de interfaces conversacionais e automação de relatórios executivos.
+            </p>
+            <div class="timeline-skills">
+              <span class="tag amber">LLM Integration</span>
+              <span class="tag amber">Telegram Bot API</span>
+              <span class="tag accent">ETL/ELT</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── CONTATO ────────────────────────────────────────────────── -->
+    <section id="contato">
+      <div class="container">
+        <div class="contact-inner reveal">
+          <div class="section-label" style="justify-content: center;">Contato</div>
+          <h2 class="contact-headline">Vamos construir<br>algo <span>juntos?</span></h2>
+          <p class="contact-sub">
+            Aberto a oportunidades em Engenharia de Dados, Análise de Dados e projetos que envolvam IA aplicada. Sinta-se à vontade para entrar em contato.
+          </p>
+          <div class="contact-links">
+            <a href="https://www.linkedin.com/in/danilorezend/" target="_blank" rel="noopener" class="contact-link">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+              LinkedIn
+            </a>
+            <a href="https://github.com/danilorezende25" target="_blank" rel="noopener" class="contact-link">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+              GitHub
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="container">
+      <p class="footer-text">
+        Desenvolvido por <span>Danilo Rezende</span> · 2025 · Engenheiro & Analista de Dados
+      </p>
+    </div>
+  </footer>
+
+  <!-- ─── JS ──────────────────────────────────────────────────────── -->
+  <script>
+    // Navbar scroll effect
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 20);
+    }, { passive: true });
+
+    // Hamburger menu
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+    });
+    document.querySelectorAll('.mobile-link').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('open');
+        mobileMenu.classList.remove('open');
+      });
+    });
+
+    // IntersectionObserver for reveal animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Rotating professional titles
+    const titles = [
+      'Engenheiro de Dados',
+      'Analista de Dados',
+      'Analista de BI',
+      'Automação com IA'
+    ];
+    let titleIndex = 0;
+    const titleEl = document.getElementById('rotating-title');
+    setInterval(() => {
+      titleEl.classList.add('fade-out');
+      setTimeout(() => {
+        titleIndex = (titleIndex + 1) % titles.length;
+        titleEl.textContent = titles[titleIndex];
+        titleEl.classList.remove('fade-out');
+      }, 360);
+    }, 2800);
+    window.addEventListener('load', () => {
+      document.querySelectorAll('#hero .reveal').forEach(el => {
+        setTimeout(() => el.classList.add('visible'), 100);
+      });
+    });
+  </script>
+
+</body>
+</html>
