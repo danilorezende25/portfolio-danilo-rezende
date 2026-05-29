@@ -1152,7 +1152,7 @@
           </p>
         </div>
 
-        <!-- BI Project Cards -->
+        <!-- BI Project Cards — lado a lado -->
         <div class="projects-grid" style="margin-top: 56px;">
 
           <!-- Card — Dashboard Comercial -->
@@ -1161,25 +1161,13 @@
               <div class="card-accent-bar" style="background: linear-gradient(90deg, #f2c811, #e8a000);"></div>
               <div class="card-icon" style="background: rgba(242,200,17,0.1); color: #f2c811; font-size: 1.3rem;">📊</div>
               <div class="card-title">Dashboard Comercial</div>
-              <p class="card-desc">Análise de performance comercial com KPIs de faturamento, resultado e margem vs. ano anterior. Constellation Schema com 2 fatos, 7 dimensões, 36 medidas DAX e visuais HTML animados.</p>
+              <p class="card-desc">Performance comercial com KPIs de faturamento, resultado e margem vs. ano anterior. Constellation Schema com 2 fatos, 7 dimensões, 36 medidas DAX e visuais HTML animados.</p>
             </div>
             <div class="card-body">
               <div class="card-modules">
-                <div class="module-item"><div class="module-dot" style="background:#f2c811"></div><span>Star Schema: fVendas + fMetas com dCalendario, dProdutos, dVendedores e mais 4 dims</span></div>
-                <div class="module-item"><div class="module-dot" style="background:#f2c811"></div><span>Time Intelligence: YTD, LY e YoY% com padrão VAR+FILTER para evitar dados futuros</span></div>
-                <div class="module-item"><div class="module-dot" style="background:#f2c811"></div><span>Visuais HTML gerados por DAX com animações CSS e formatação condicional dinâmica</span></div>
-              </div>
-
-              <!-- Screenshots inline -->
-              <div class="screenshots-grid" style="margin-top: 20px; grid-template-columns: 1fr 1fr;">
-                <div class="screenshot-item" onclick="openLightbox('https://raw.githubusercontent.com/danilorezende25/dashboard-comercial-pbi/main/docs/screenshots/01-performance-comercial.png')">
-                  <img src="https://raw.githubusercontent.com/danilorezende25/dashboard-comercial-pbi/main/docs/screenshots/01-performance-comercial.png" alt="Performance Comercial" loading="lazy" />
-                  <div class="screenshot-caption">Performance Comercial — KPIs e rankings por cidade</div>
-                </div>
-                <div class="screenshot-item" onclick="openLightbox('https://raw.githubusercontent.com/danilorezende25/dashboard-comercial-pbi/main/docs/screenshots/02-analises-evolutivas.png')">
-                  <img src="https://raw.githubusercontent.com/danilorezende25/dashboard-comercial-pbi/main/docs/screenshots/02-analises-evolutivas.png" alt="Análises Evolutivas" loading="lazy" />
-                  <div class="screenshot-caption">Análises Evolutivas — tendências mensais de faturamento, resultado e margem</div>
-                </div>
+                <div class="module-item"><div class="module-dot" style="background:#f2c811"></div><span>Constellation Schema: fVendas + fMetas, 7 dimensões, 10 relacionamentos</span></div>
+                <div class="module-item"><div class="module-dot" style="background:#f2c811"></div><span>Time Intelligence: YTD, LY e YoY% com VAR+FILTER sem dados futuros</span></div>
+                <div class="module-item"><div class="module-dot" style="background:#f2c811"></div><span>Visuais HTML gerados por DAX com CSS animations e formatação condicional</span></div>
               </div>
             </div>
             <div class="card-footer">
@@ -1196,32 +1184,19 @@
             </div>
           </article>
 
-        </div>
-
           <!-- Card — Dashboard RH -->
           <article class="project-card reveal reveal-delay-2">
             <div class="card-header">
               <div class="card-accent-bar" style="background: linear-gradient(90deg, #a78bfa, #7c3aed);"></div>
               <div class="card-icon" style="background: rgba(167,139,250,0.1); color: #a78bfa; font-size: 1.3rem;">👥</div>
               <div class="card-title">Dashboard RH — People Analytics</div>
-              <p class="card-desc">Análise de headcount, massa salarial, performance e satisfação da força de trabalho. Visuais HTML/SVG animados — velocímetro de performance e indicador de satisfação com animação CSS.</p>
+              <p class="card-desc">Headcount, massa salarial, performance e satisfação da força de trabalho. Visuais HTML/SVG animados — velocímetro de performance e indicador de satisfação com animação CSS.</p>
             </div>
             <div class="card-body">
               <div class="card-modules">
-                <div class="module-item"><div class="module-dot" style="background:#a78bfa"></div><span>Headcount acumulado com padrão FILTER+ALL+MAX sem time intelligence nativa</span></div>
-                <div class="module-item"><div class="module-dot" style="background:#a78bfa"></div><span>Slicer desconectado (Aux_ano) para formatação condicional sem filtrar o modelo</span></div>
-                <div class="module-item"><div class="module-dot" style="background:#a78bfa"></div><span>Velocímetro e indicador de satisfação gerados em DAX com SVG + CSS animation</span></div>
-              </div>
-
-              <div class="screenshots-grid" style="margin-top: 20px; grid-template-columns: 1fr 1fr;">
-                <div class="screenshot-item" onclick="openLightbox('https://raw.githubusercontent.com/danilorezende25/dashboard-rh-pbi/main/docs/screenshots/01-mapa-colaboradores.png')">
-                  <img src="https://raw.githubusercontent.com/danilorezende25/dashboard-rh-pbi/main/docs/screenshots/01-mapa-colaboradores.png" alt="Mapa de Colaboradores" loading="lazy" />
-                  <div class="screenshot-caption">Mapa de Colaboradores — headcount e perfil demográfico</div>
-                </div>
-                <div class="screenshot-item" onclick="openLightbox('https://raw.githubusercontent.com/danilorezende25/dashboard-rh-pbi/main/docs/screenshots/02-tooltip-performance.png')">
-                  <img src="https://raw.githubusercontent.com/danilorezende25/dashboard-rh-pbi/main/docs/screenshots/02-tooltip-performance.png" alt="Tooltip Performance" loading="lazy" />
-                  <div class="screenshot-caption">Velocímetro de Performance — visual HTML/SVG animado</div>
-                </div>
+                <div class="module-item"><div class="module-dot" style="background:#a78bfa"></div><span>Headcount acumulado com FILTER+ALL+MAX sem time intelligence nativa</span></div>
+                <div class="module-item"><div class="module-dot" style="background:#a78bfa"></div><span>Slicer desconectado (Aux_ano) para destaque condicional sem filtrar o modelo</span></div>
+                <div class="module-item"><div class="module-dot" style="background:#a78bfa"></div><span>Velocímetro e barra de satisfação em DAX com SVG + CSS animation</span></div>
               </div>
             </div>
             <div class="card-footer">
@@ -1238,6 +1213,30 @@
             </div>
           </article>
 
+        </div>
+
+        <!-- Galeria de screenshots abaixo dos cards -->
+        <div class="pbi-screenshots reveal" style="margin-top: 48px;">
+          <h3 class="pbi-screenshots-title">Screenshots dos Dashboards</h3>
+          <p class="pbi-screenshots-sub">Capturas reais do Power BI Desktop. Clique para ampliar.</p>
+          <div class="screenshots-grid">
+            <div class="screenshot-item" onclick="openLightbox('https://raw.githubusercontent.com/danilorezende25/dashboard-comercial-pbi/main/docs/screenshots/01-performance-comercial.png')">
+              <img src="https://raw.githubusercontent.com/danilorezende25/dashboard-comercial-pbi/main/docs/screenshots/01-performance-comercial.png" alt="Performance Comercial" loading="lazy" />
+              <div class="screenshot-caption">📊 Comercial — Performance com KPIs e ranking por cidade</div>
+            </div>
+            <div class="screenshot-item" onclick="openLightbox('https://raw.githubusercontent.com/danilorezende25/dashboard-comercial-pbi/main/docs/screenshots/02-analises-evolutivas.png')">
+              <img src="https://raw.githubusercontent.com/danilorezende25/dashboard-comercial-pbi/main/docs/screenshots/02-analises-evolutivas.png" alt="Análises Evolutivas" loading="lazy" />
+              <div class="screenshot-caption">📊 Comercial — Análises Evolutivas mensais</div>
+            </div>
+            <div class="screenshot-item" onclick="openLightbox('https://raw.githubusercontent.com/danilorezende25/dashboard-rh-pbi/main/docs/screenshots/01-mapa-colaboradores.png')">
+              <img src="https://raw.githubusercontent.com/danilorezende25/dashboard-rh-pbi/main/docs/screenshots/01-mapa-colaboradores.png" alt="Mapa de Colaboradores" loading="lazy" />
+              <div class="screenshot-caption">👥 RH — Mapa de Colaboradores e perfil demográfico</div>
+            </div>
+            <div class="screenshot-item" onclick="openLightbox('https://raw.githubusercontent.com/danilorezende25/dashboard-rh-pbi/main/docs/screenshots/02-tooltip-performance.png')">
+              <img src="https://raw.githubusercontent.com/danilorezende25/dashboard-rh-pbi/main/docs/screenshots/02-tooltip-performance.png" alt="Velocímetro Performance" loading="lazy" />
+              <div class="screenshot-caption">👥 RH — Velocímetro de Performance (HTML/SVG animado)</div>
+            </div>
+          </div>
         </div>
 
         <div style="text-align:center; margin-top: 48px;" class="reveal">
